@@ -10,3 +10,4 @@ for num in range(1, 101):
 
 # Print the result
 print(f"The sum of even numbers from 1 to 100 is: {even_sum}")
+print("test")
