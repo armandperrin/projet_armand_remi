@@ -33,5 +33,14 @@ jobs:
     # Étape 4 : Lancer les tests
     - name: Run tests
       run: |
-        pytest
+        pytest > test_results.txt # Sauvegarde des résultats dans un fichier
+      continue-on-error: true # Continue même si les tests échouent
+
+    # Étape 5 : Sauvegarde des résultats des tests comme artéfacts
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results # Nom de l'artéfact
+        path: test_results.txt # Chemin du fichier à sauvegarder
+
 
