@@ -1,0 +1,32 @@
+name: Generate PDF Artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 : Récupérer les fichiers du dépôt
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Étape 2 : Installer les outils nécessaires
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y pandoc texlive
+
+      # Étape 3 : Générer le PDF
+      - name: Create PDF
+        run: |
+          echo "pdf armand." > document.txt
+          pandoc document.txt -o output.pdf
+
+      # Étape 4 : Sauvegarder l'artefact PDF
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdf-document
+          path: output.pdf
