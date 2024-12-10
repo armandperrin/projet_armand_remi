@@ -43,4 +43,3 @@ jobs:
         name: test-results # Nom de l'artéfact
         path: test_results.txt # Chemin du fichier à sauvegarder
 
-
