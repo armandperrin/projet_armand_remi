@@ -1,4 +1,4 @@
-name: Build and Upload Artifact
+name: Build and Upload Artefact
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create a file
-        run: echo "Test workflow Armand Rémi" > artifact.txt
+        run: echo "Test workflow Armand Rémi" > artefact.txt
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload artefact
+        uses: actions/upload-artefact@v3
         with:
-          name: my-artifact
-          path: artifact.txt
+          name: my-artefact
+          path: artefact.txt
