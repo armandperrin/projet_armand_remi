@@ -1,0 +1,37 @@
+name: Log Push Content with Artifact
+
+on:
+  push:
+    branches:
+      - main  # Vous pouvez ajuster la branche cible selon vos besoins
+
+jobs:
+  write-content:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Étape 1 : Vérifier le code source
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Étape 2 : Extraire les fichiers modifiés dans le push
+    - name: Get list of changed files
+      id: files
+      run: |
+        # Liste les fichiers modifiés dans le push et les enregistre dans une variable
+        git diff --name-only ${{ github.event.before }} ${{ github.sha }} > files_changed.txt
+        cat files_changed.txt
+
+    # Étape 3 : Créer un fichier avec les détails du push
+    - name: Write to push_content.txt
+      run: |
+        echo "Push Content - Files Modified:" > push_content.txt
+        cat files_changed.txt >> push_content.txt
+        cat push_content.txt  # Affiche le contenu du fichier généré
+
+    # Étape 4 : Créer un artefact contenant le fichier push_content.txt
+    - name: Upload Push Content as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: push-content-artifact
+        path: push_content.txt
