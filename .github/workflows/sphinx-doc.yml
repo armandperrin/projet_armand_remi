@@ -1,0 +1,44 @@
+name: Sphinx Documentation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Étape 1 : Vérification du code source
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Étape 2 : Installation de Python et de Sphinx
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    # Étape 3 : Installation des dépendances (Sphinx, thème, etc.)
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install sphinx sphinx_rtd_theme
+
+    # Étape 4 : Construction de la documentation avec Sphinx
+    - name: Build Sphinx docs
+      run: |
+        cd docs
+        make html  # Générez la documentation en HTML
+
+    # Étape 5 : Télécharger la documentation générée comme artefact
+    - name: Upload documentation as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: sphinx-docs
+        path: docs/_build/html  # Répertoire où la documentation est générée
+
