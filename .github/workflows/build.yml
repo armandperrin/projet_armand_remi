@@ -1,4 +1,4 @@
-name: Build and Upload Artifact
+name: Generate PDF Artifact
 
 on:
   push:
@@ -8,15 +8,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
+      # Étape 1 : Récupérer les fichiers du dépôt
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Create a file
-        run: echo "Test workflow Armand Rémi" > artifact.txt
+      # Étape 2 : Installer Pandoc et TeX Live (nécessaire pour générer le PDF)
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive
 
-      - name: Upload artifact
+      # Étape 3 : Créer un fichier texte et le convertir en PDF
+      - name: Create PDF
+        run: |
+          echo "Hello, World! This is my PDF content." > document.txt
+          pandoc document.txt -o output.pdf
+
+      # Étape 4 : Sauvegarder le PDF comme artefact
+      - name: Upload PDF artifact
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
-          path: artifact.txt
+          name: pdf-document
+          path: output.pdf
