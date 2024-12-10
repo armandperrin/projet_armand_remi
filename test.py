@@ -19,3 +19,4 @@ def pytest_addoption(parser):
 @pytest_addoption.fixture
 def cmdopt(request):
     return request.config.getoption("--cmdopt")
+    
