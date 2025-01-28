@@ -26,6 +26,8 @@ pipeline {
                     bat '''
                     git config user.name "Jenkins Bot"
                     git config user.email "jenkins@yourdomain.com"
+                    git fetch origin
+                    git checkout vladimir || git checkout -b vladimir
                     git add JenkinsVladimir/report.xml
                     git commit -m "Add test report"
                     git push origin vladimir
