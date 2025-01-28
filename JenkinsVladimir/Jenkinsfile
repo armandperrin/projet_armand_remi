@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'vladimir' }  // Exécute sur le slave "vladimir"
+    agent { label 'vladimir' } // Exécute sur le slave "vladimir"
     stages {
         stage('Install Dependencies') {
             steps {
@@ -11,6 +11,24 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 bat 'pytest JenkinsVladimir/test_calculator.py --junitxml=report.xml'
+            }
+        }
+        stage('Copy Report to Git Folder') {
+            steps {
+                echo 'Copying report.xml to JenkinsVladimir folder...'
+                bat 'move report.xml JenkinsVladimir/'
+            }
+        }
+        stage('Commit and Push Report to Git') {
+            steps {
+                echo 'Committing and pushing report.xml to GitHub...'
+                bat '''
+                git config user.name "Jenkins Bot"
+                git config user.email "jenkins@yourdomain.com"
+                git add JenkinsVladimir/report.xml
+                git commit -m "Add test report"
+                git push origin vladimir
+                '''
             }
         }
         stage('Publish Results') {
