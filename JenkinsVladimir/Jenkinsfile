@@ -28,7 +28,7 @@ pipeline {
                     git config user.email "jenkins@yourdomain.com"
                     git add JenkinsVladimir/report.xml
                     git commit -m "Add test report"
-                    git push https://%GIT_USER%:%GIT_PASS%@github.com/armandperrin/projet_armand_remi.git vladimir
+                    git push origin vladimir
                     '''
                 }
             }
