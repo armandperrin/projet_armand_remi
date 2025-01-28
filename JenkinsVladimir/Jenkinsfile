@@ -1,0 +1,23 @@
+pipeline {
+    agent { label 'vladimir' }  // Spécifie que le pipeline s'exécute sur le slave "vladimir"
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing dependencies...'
+                bat 'pip install -r requirements.txt'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                echo 'Running tests...'
+                bat 'pytest --junitxml=report.xml'
+            }
+        }
+        stage('Publish Results') {
+            steps {
+                echo 'Publishing test results...'
+                junit 'report.xml'
+            }
+        }
+    }
+}
