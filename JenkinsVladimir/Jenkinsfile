@@ -36,6 +36,7 @@ pipeline {
                     git config user.email "jenkins@yourdomain.com"
                     git fetch origin
                     git checkout vladimir || git checkout -b vladimir
+                    bat 'git pull --rebase origin vladimir'
                     git add JenkinsVladimir/report.xml
                     git commit -m "Add test report"
                     git push origin vladimir
