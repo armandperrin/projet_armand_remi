@@ -37,23 +37,8 @@ pipeline {
                 bat 'black JenkinsVladimir2/script_to_format.py'
             }
         }
-
-        stage('Commit and Push if Changed') {
-            steps {
-                echo 'Committing and pushing formatted code if necessary...'
-                withCredentials([usernamePassword(credentialsId: GIT_CREDENTIALS_ID, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-                    bat """
-                        git config user.name "${GIT_USER}"
-                        git config user.email "${GIT_EMAIL}"
-                        git checkout -B vladimir  // Assurer qu'on est bien sur la branche
-                        git add JenkinsVladimir2/script_to_format.py
-                        git commit -m "Auto-formatted code using Black" || echo "No changes to commit"
-                        git push https://$GIT_USER:$GIT_PASS@github.com/armandperrin/projet_armand_remi.git vladimir
-                    """
-                }
-            }
-        }
     }
+}
 
     post {
         always {
