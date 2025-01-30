@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'vladimir' } // Exécute sur le slave "vladimir"
 
     environment {
         GIT_CREDENTIALS_ID = 'github-credentials'
