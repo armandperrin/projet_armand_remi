@@ -4,8 +4,6 @@ pipeline {
     environment {
         GIT_CREDENTIALS_ID = 'github-credentials'
         GIT_BRANCH = 'vladimir'
-        GIT_USER = 'Vladimir'
-        GIT_EMAIL = 'jenkins@yourdomain.com'
     }
 
     stages {
@@ -38,7 +36,6 @@ pipeline {
             }
         }
     }
-}
 
     post {
         always {
