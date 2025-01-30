@@ -1,1 +1,65 @@
+pipeline {
+    agent any
 
+    environment {
+        GIT_CREDENTIALS_ID = 'github-credentials'
+        GIT_BRANCH = 'vladimir'
+        GIT_USER = 'Jenkins Bot'
+        GIT_EMAIL = 'jenkins@yourdomain.com'
+    }
+
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing dependencies...'
+                bat 'pip install -r JenkinsVladimir2/requirements.txt'
+            }
+        }
+
+        stage('Check Code Format') {
+            steps {
+                echo 'Checking Black format...'
+                bat 'black --check JenkinsVladimir2/script_to_format.py'
+            }
+        }
+
+        stage('Apply Formatting') {
+            steps {
+                echo 'Applying Black formatting...'
+                bat 'black JenkinsVladimir2/script_to_format.py'
+            }
+        }
+
+        stage('Commit and Push if Changed') {
+            steps {
+                echo 'Committing and pushing formatted code if necessary...'
+                withCredentials([usernamePassword(credentialsId: GIT_CREDENTIALS_ID, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                    bat """
+                        git config user.name "${GIT_USER}"
+                        git config user.email "${GIT_EMAIL}"
+                        git add JenkinsVladimir2/script_to_format.py
+                        git commit -m "Auto-formatted code using Black" || echo "No changes to commit"
+                        git push https://$GIT_USER:$GIT_PASS@github.com/armandperrin/projet_armand_remi.git ${GIT_BRANCH}
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline execution complete."
+        }
+        failure {
+            echo "Build failed! Check logs."
+        }
+    }
+}
