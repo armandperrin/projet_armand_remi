@@ -24,6 +24,15 @@ pipeline {
             }
         }
 
+        stage('Debug Environment') {
+            steps {
+                echo 'Checking Python & Pip versions...'
+                bat 'python --version'
+                bat 'pip --version'
+                bat 'pip list'
+            }
+        }
+
         stage('Check Code Format') {
             steps {
                 echo 'Checking Black format...'
