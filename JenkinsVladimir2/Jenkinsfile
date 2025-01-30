@@ -4,7 +4,7 @@ pipeline {
     environment {
         GIT_CREDENTIALS_ID = 'github-credentials'
         GIT_BRANCH = 'vladimir'
-        GIT_USER = 'Jenkins Bot'
+        GIT_USER = 'Vladimir'
         GIT_EMAIL = 'jenkins@yourdomain.com'
     }
 
@@ -45,9 +45,10 @@ pipeline {
                     bat """
                         git config user.name "${GIT_USER}"
                         git config user.email "${GIT_EMAIL}"
+                        git checkout -B vladimir  // Assurer qu'on est bien sur la branche
                         git add JenkinsVladimir2/script_to_format.py
                         git commit -m "Auto-formatted code using Black" || echo "No changes to commit"
-                        git push https://$GIT_USER:$GIT_PASS@github.com/armandperrin/projet_armand_remi.git ${GIT_BRANCH}
+                        git push https://$GIT_USER:$GIT_PASS@github.com/armandperrin/projet_armand_remi.git vladimir
                     """
                 }
             }
