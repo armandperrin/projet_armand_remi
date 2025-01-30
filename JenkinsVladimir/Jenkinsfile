@@ -7,14 +7,6 @@ pipeline {
                 bat 'pip install -r JenkinsVladimir/requirements.txt'
             }
         }
-
-        stage('Clean Old Report') {
-            steps {
-                echo 'Deleting old report.xml if it exists...'
-                bat 'if exist JenkinsVladimir\\report.xml del /F /Q JenkinsVladimir\\report.xml'
-            }
-        }
-
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
@@ -36,7 +28,6 @@ pipeline {
                     git config user.email "jenkins@yourdomain.com"
                     git fetch origin
                     git checkout vladimir || git checkout -b vladimir
-                    git pull --rebase origin vladimir
                     git add JenkinsVladimir/report.xml
                     git commit -m "Add test report"
                     git push origin vladimir
@@ -47,7 +38,7 @@ pipeline {
         stage('Publish Results') {
             steps {
                 echo 'Publishing test results...'
-                junit 'JenkinsVladimir/report.xml'
+                junit 'report.xml'
             }
         }
     }
