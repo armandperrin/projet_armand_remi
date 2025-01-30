@@ -20,7 +20,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
-                bat 'pip install black'
+                bat 'pip install black || exit /b 0'
             }
         }
 
