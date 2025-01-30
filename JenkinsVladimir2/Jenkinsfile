@@ -18,7 +18,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
-                bat 'pip install black || exit /b 0'
+                bat 'pip install -r JenkinsVladimir2/requirements.txt || exit /b 0'
             }
         }
 
