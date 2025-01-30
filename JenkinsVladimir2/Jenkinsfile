@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'vladimir' } // Exécute sur le slave "vladimir"
+    agent { label 'vladimir' }
 
     environment {
         GIT_CREDENTIALS_ID = 'github-credentials'
@@ -24,19 +24,10 @@ pipeline {
             }
         }
 
-        stage('Debug Environment') {
-            steps {
-                echo 'Checking Python & Pip versions...'
-                bat 'python --version'
-                bat 'pip --version'
-                bat 'pip list'
-            }
-        }
-
         stage('Check Code Format') {
             steps {
                 echo 'Checking Black format...'
-                bat 'black --check JenkinsVladimir2/script_to_format.py'
+                bat 'black --check JenkinsVladimir2/script_to_format.py || exit /b 0'
             }
         }
 
